@@ -5,10 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Logan Clegg, Websites &amp; AI for Businesses</title>
   <meta name="description" content="Clean, mobile-friendly websites for businesses. Show up on Google and get more customers.">
+  <script>if ('IntersectionObserver' in window) document.documentElement.classList.add('has-js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    /* Scroll reveal (auto-disabled if the visitor prefers reduced motion) */
+    @media (prefers-reduced-motion: no-preference) {
+      .has-js :is(.eyebrow, h1, h2, .card, .step, details.service) {
+        opacity: 0;
+        transform: scale(0.93);
+        transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .has-js :is(.eyebrow, h1, h2, .card, .step, details.service).in-view {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
     :root {
       --bg: #f5f3ee;
       --panel: #fbfaf7;
@@ -126,7 +140,7 @@
 
     /* Services accordion */
     .services { border-top: 1px solid var(--line); }
-    .service { border-bottom: 1px solid var(--line); }
+    .service { border-bottom: 1px solid var(--line); scroll-margin-top: 88px; }
     .service summary {
       list-style: none;
       cursor: pointer;
@@ -140,10 +154,24 @@
     .service summary .s-num { font-family: var(--serif); color: var(--accent); font-size: 1rem; flex: 0 0 auto; }
     .service summary .s-title { font-family: var(--serif); font-weight: 500; font-size: 1.7rem; flex: 1; letter-spacing: -0.01em; }
     .service summary .s-icon {
-      flex: 0 0 auto; font-size: 1.6rem; color: var(--muted);
-      line-height: 1; transition: transform 0.25s ease, color 0.15s ease;
+      flex: 0 0 auto;
+      width: 24px; height: 24px;
+      position: relative;
+      font-size: 0; /* hides the "+" text; chevron is drawn below */
+      color: var(--accent);
+      transition: transform 0.3s ease, color 0.15s ease;
     }
-    .service[open] summary .s-icon { transform: rotate(45deg); color: var(--accent); }
+    .service summary .s-icon::after {
+      content: "";
+      position: absolute;
+      top: 38%; left: 50%;
+      width: 13px; height: 13px;
+      border-right: 2.5px solid currentColor;
+      border-bottom: 2.5px solid currentColor;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    .service[open] summary .s-icon { transform: rotate(180deg); }
+    .service summary:hover .s-icon { color: var(--ink); }
     .service summary:hover .s-title { color: var(--accent); }
     .service .s-body {
       color: var(--muted); font-size: 1.05rem;
@@ -158,6 +186,41 @@
       border: 1px dashed var(--line); border-radius: 4px;
       padding: 36px; text-align: center; color: var(--muted);
       font-size: 0.98rem; font-style: italic;
+    }
+    .work-intro {
+      grid-column: 1 / -1;
+      color: var(--muted); font-size: 1.02rem; line-height: 1.55;
+      margin-bottom: 4px; max-width: 660px;
+    }
+    .skill-card {
+      border: 1px solid var(--line); border-radius: 4px; background: var(--panel);
+      padding: 22px 24px;
+    }
+    .skill-card h4 {
+      font-family: var(--serif); font-weight: 500; font-size: 1.3rem; color: var(--ink);
+      letter-spacing: -0.01em; margin-bottom: 7px;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .skill-card p { color: var(--muted); font-size: 0.98rem; line-height: 1.5; }
+    .skill-card .tag {
+      font-family: 'Inter', sans-serif; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--muted); border: 1px solid var(--line); border-radius: 999px;
+      padding: 3px 10px; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .skill-card .tag .live-word {
+      color: #ff2d2d; text-shadow: 0 0 7px rgba(255, 45, 45, 0.75);
+    }
+    .skill-card .tag .live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #ff2d2d; box-shadow: 0 0 6px 1px rgba(255, 45, 45, 0.9);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .skill-card .tag .live-dot { animation: livePulse 1.6s ease-in-out infinite; }
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 6px 1px rgba(255, 45, 45, 0.9); }
+      50%      { opacity: 0.45; box-shadow: 0 0 3px 0 rgba(255, 45, 45, 0.45); }
     }
     .work-item {
       background: var(--panel);
@@ -267,10 +330,10 @@
         <p class="eyebrow">Services</p>
         <h2>What I Do</h2>
         <div class="services">
-          <details class="service" open>
+          <details class="service">
             <summary>
               <span class="s-num">01</span>
-              <span class="s-title">Web Design</span>
+              <span class="s-title">Web Design &amp; Portfolios</span>
               <span class="s-icon">+</span>
             </summary>
             <p class="s-body">Clean, mobile-friendly websites built to help your business show up on Google and bring in more customers.</p>
@@ -309,10 +372,10 @@
         <h2>Recent Work</h2>
 
         <div class="services">
-          <details class="service" open>
+          <details class="service">
             <summary>
               <span class="s-num">01</span>
-              <span class="s-title">Web Design</span>
+              <span class="s-title">Web Design &amp; Portfolios</span>
               <span class="s-icon">+</span>
             </summary>
             <div class="work-body">
@@ -343,7 +406,18 @@
             </summary>
             <div class="work-body">
               <div class="work">
-                <div class="work-placeholder">Live examples on request. I'll walk you through what I've built on our call.</div>
+                <div class="work-item">
+                  <img src="ai-digest-output.png" alt="Automated AI news digest delivered each morning">
+                  <div class="caption">
+                    <span>Automated daily news digest. Every morning it gathers the day's top stories and sends them straight to my phone.</span>
+                  </div>
+                </div>
+                <div class="work-item">
+                  <img src="ai-digest-runs.png" alt="Automation running automatically on a schedule">
+                  <div class="caption">
+                    <span>Runs automatically on a set schedule, completely hands-off.</span>
+                  </div>
+                </div>
               </div>
             </div>
           </details>
@@ -374,7 +448,27 @@
             </summary>
             <div class="work-body">
               <div class="work">
-                <div class="work-placeholder">Live examples on request. I'll walk you through what I've built on our call.</div>
+                <p class="work-intro">One-word commands I build for the repetitive tasks in your business. Type the command, get a finished result. A few examples:</p>
+                <div class="skill-card" style="grid-column: 1 / -1;">
+                  <h4>Lead research <span class="tag"><span class="live-dot"></span><span class="live-word">Live</span> in my own assistant</span></h4>
+                  <p>Type a business name and get a full research brief in seconds: what they do, where AI fits, and talking points for outreach.</p>
+                </div>
+                <div class="skill-card">
+                  <h4>Review responder</h4>
+                  <p>Drafts replies to your Google and Yelp reviews in your voice, ready to post.</p>
+                </div>
+                <div class="skill-card">
+                  <h4>Quote drafter</h4>
+                  <p>Enter the job details and get a ready-to-send estimate email.</p>
+                </div>
+                <div class="skill-card">
+                  <h4>Social post generator</h4>
+                  <p>Give it a topic and get a caption ready to publish.</p>
+                </div>
+                <div class="skill-card">
+                  <h4>Daily report</h4>
+                  <p>Pulls the day's jobs and numbers into one clean morning summary.</p>
+                </div>
               </div>
             </div>
           </details>
@@ -442,6 +536,76 @@
   <footer>
     <div class="wrap">Logan Clegg · Web &amp; AI for Businesses</div>
   </footer>
+
+  <script>
+    // Accordion: smooth open/close, and opening one closes the others in the same section
+    (function () {
+      var DURATION = 300;
+
+      function animate(d, from, to, after) {
+        d.style.overflow = 'hidden';
+        var anim = d.animate(
+          [{ height: from + 'px' }, { height: to + 'px' }],
+          { duration: DURATION, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' }
+        );
+        anim.onfinish = function () {
+          d.style.height = '';
+          d.style.overflow = '';
+          if (after) after();
+        };
+      }
+
+      function open(d) {
+        var collapsed = d.querySelector('summary').offsetHeight;
+        d.open = true;
+        animate(d, collapsed, d.scrollHeight);
+        d.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      function close(d) {
+        var expanded = d.offsetHeight;
+        var collapsed = d.querySelector('summary').offsetHeight;
+        animate(d, expanded, collapsed, function () { d.open = false; });
+      }
+
+      document.querySelectorAll('details.service').forEach(function (d) {
+        d.querySelector('summary').addEventListener('click', function (e) {
+          e.preventDefault();
+          if (d.open) {
+            close(d);
+          } else {
+            d.parentElement.querySelectorAll('details.service[open]').forEach(function (other) {
+              if (other !== d) close(other);
+            });
+            open(d);
+          }
+        });
+      });
+    })();
+  </script>
+
+  <script>
+    // Scroll reveal: fade + lift each block as it enters the viewport, fade out as it leaves
+    (function () {
+      if (!('IntersectionObserver' in window)) return;
+      var selector = '.eyebrow, h1, h2, .card, .step, details.service';
+      var els = Array.prototype.slice.call(document.querySelectorAll(selector));
+      // subtle stagger for items grouped under the same parent
+      els.forEach(function (el) {
+        var group = Array.prototype.filter.call(el.parentElement.children, function (c) {
+          return c.matches(selector);
+        });
+        var idx = group.indexOf(el);
+        if (idx > 0) el.style.transitionDelay = Math.min(idx * 0.08, 0.4) + 's';
+      });
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          e.target.classList.toggle('in-view', e.isIntersecting);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
 
 </body>
 </html>
